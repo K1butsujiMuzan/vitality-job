@@ -1,0 +1,77 @@
+@use '../../../styles/functions';
+
+.control {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  min-height: functions.rem(44);
+  padding-inline: functions.rem(11) functions.rem(38);
+  border: 1px solid var(--base-color-border);
+  border-radius: functions.rem(8);
+  background: var(--base-color-bg);
+  color: var(--base-color-text);
+  cursor: pointer;
+  transition-property: border-color, background-color;
+  display: flex;
+  align-items: center;
+
+  &:hover:not(:disabled),
+  &:active:not(:disabled) {
+    border-color: var(--base-color-link);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
+
+.chevron {
+  position: absolute;
+  inset-inline-end: functions.rem(12);
+  inset-block-start: 50%;
+  display: flex;
+  transform: translateY(-50%) rotate(90deg);
+  pointer-events: none;
+  color: var(--base-color-link);
+}
+
+@supports (appearance: base-select) {
+  .select,
+  .select::picker(select) {
+    appearance: base-select;
+  }
+
+  .select::picker-icon {
+    display: none;
+  }
+
+  .select::picker(select) {
+    margin-block-start: functions.rem(5);
+    padding: functions.rem(4);
+    border: 1px solid var(--base-color-border);
+    border-radius: functions.rem(8);
+    background: var(--base-color-bg);
+    color: var(--base-color-text);
+  }
+
+  .select option {
+    padding: functions.rem(8) functions.rem(10);
+    border-radius: functions.rem(5);
+
+    &:hover,
+    &:focus-visible,
+    &:checked {
+      background: var(--base-color-additional-accent);
+    }
+
+    &:checked {
+      font-weight: 600;
+    }
+  }
+}

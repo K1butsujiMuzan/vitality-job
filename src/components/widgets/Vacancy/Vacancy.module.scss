@@ -1,0 +1,243 @@
+@use '../../../styles/functions';
+@use '../../../styles/media';
+@use '../../../styles/mixins';
+
+.main {
+  position: relative;
+  padding-block: functions.rem(20) functions.rem(48);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    inset-inline: var(--main-container-padding-x);
+    border-top: 1px solid var(--base-color-border);
+    content: '';
+  }
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: functions.rem(10);
+  overflow-wrap: anywhere;
+  font-size: functions.rem(15);
+  margin-bottom: functions.fluid(16, 24);
+}
+
+.breadcrumbs a,
+.contacts a,
+.attribution a {
+  color: var(--base-color-link);
+  font-weight: 600;
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.breadcrumbs svg,
+.fact svg,
+.addresses svg {
+  color: var(--base-color-link);
+}
+
+.heading {
+  margin-bottom: functions.fluid(22, 32);
+
+  h1 {
+    @include mixins.fluid-text(30, 48);
+    margin-block: 0 functions.rem(12);
+    line-height: 1.12;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+}
+
+.byline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: functions.rem(8) functions.rem(14);
+  font-size: functions.fluid(15, 18);
+  font-weight: 500;
+}
+
+.separator {
+  width: functions.rem(6);
+  height: functions.rem(6);
+  border-radius: 50%;
+  background: var(--base-color-link);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: functions.fluid(16, 28);
+
+  @include media.tablet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.details,
+.sidebar,
+.actions {
+  display: grid;
+  align-content: start;
+  gap: functions.rem(16);
+}
+
+.sidebar {
+  gap: functions.rem(22);
+}
+
+.actions {
+  gap: functions.rem(12);
+
+  a,
+  button {
+    min-height: functions.rem(50);
+  }
+}
+
+.actionNote,
+.analysisDate,
+.attribution {
+  color: var(--base-color-additional);
+  font-size: functions.rem(14);
+}
+
+.card,
+.facts,
+.analysis {
+  padding: functions.fluid(14, 22);
+  border: 1px solid var(--base-color-border);
+  border-radius: functions.rem(14);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-block: 0;
+  column-gap: functions.rem(16);
+  font-variant-numeric: tabular-nums;
+
+  @include media.mobile-s {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: functions.rem(14);
+  padding-block: functions.rem(11);
+  border-bottom: 1px solid var(--base-color-border);
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin-inline-start: 0;
+  }
+}
+
+.facts .fact:nth-last-child(-n + 2):nth-child(odd),
+.facts .fact:last-child,
+.contacts .fact:last-child {
+  border-bottom: 0;
+}
+
+@include media.mobile-s {
+  .facts .fact:nth-last-child(2):nth-child(odd) {
+    border-bottom: 1px solid var(--base-color-border);
+  }
+}
+
+.sectionTitle {
+  @include mixins.fluid-text(19, 22);
+  line-height: 1.25;
+  margin-bottom: functions.rem(8);
+  font-weight: 700;
+}
+
+.verbatim {
+  white-space: pre-line;
+}
+
+.addresses li {
+  display: flex;
+  align-items: start;
+  gap: functions.rem(10);
+
+  + li {
+    margin-top: functions.rem(8);
+  }
+}
+
+.analysis {
+  background: color-mix(
+    in srgb,
+    var(--base-color-additional-accent),
+    var(--base-color-bg) 50%
+  );
+  border-color: transparent;
+}
+
+.issueList {
+  display: grid;
+  gap: functions.rem(15);
+  padding-left: functions.rem(20);
+  list-style: disc;
+
+  > li::marker {
+    color: var(--base-color-link);
+  }
+}
+
+.issue {
+  h3 {
+    margin: functions.rem(4) 0;
+    font-size: functions.rem(16);
+    font-weight: 700;
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.evidence {
+  display: grid;
+  gap: functions.rem(8);
+  font-size: functions.rem(14);
+  margin-block: functions.rem(9) functions.rem(10);
+
+  > div {
+    padding-inline-start: functions.rem(10);
+    border-inline-start: 1px solid var(--base-color-border);
+  }
+
+  dt {
+    color: var(--base-color-additional);
+    font-weight: 600;
+  }
+
+  dd {
+    margin-inline-start: 0;
+    white-space: pre-line;
+  }
+}
+
+.analysisDate {
+  margin-top: functions.rem(14);
+}

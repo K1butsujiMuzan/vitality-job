@@ -1,0 +1,6 @@
+export const VACANCIES_CONFIG = {
+  PAGE_SIZE: 9,
+  QUERY_LENGTH: 120,
+  MIN_SALARY_LIMIT: 100_000_000,
+  HIGH_ISSUE_COUNT: 5,
+} as const

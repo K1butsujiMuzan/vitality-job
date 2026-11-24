@@ -26,6 +26,12 @@
   --base-color-bg: var(--color-white);
   --base-color-additional: var(--color-gray);
   --base-color-additional-accent: var(--color-light-theme-purple);
+  --base-color-link: var(--color-purple);
+  --base-color-border: color-mix(
+    in srgb,
+    var(--base-color-text) 24%,
+    var(--base-color-bg)
+  );
 }
 
 html.dark {
@@ -33,4 +39,9 @@ html.dark {
   --base-color-bg: var(--color-black);
   --base-color-additional: var(--color-light-gray);
   --base-color-additional-accent: var(--color-dark-theme-purple);
+  --base-color-link: color-mix(
+    in srgb,
+    var(--color-purple) 45%,
+    var(--color-white)
+  );
 }

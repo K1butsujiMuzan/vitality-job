@@ -19,6 +19,27 @@
   padding: functions.rem(2);
   display: inline-flex;
   color: var(--color-white);
+
+  &:has(.themeInput:focus-visible) {
+    outline: 2px solid var(--base-color-link);
+    outline-offset: 3px;
+  }
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--base-color-additional-accent),
+      var(--color-purple) 12%
+    );
+  }
+
+  &:active .themeOval {
+    background-color: color-mix(
+      in srgb,
+      var(--color-purple),
+      var(--color-black) 18%
+    );
+  }
 }
 
 .themeInput {

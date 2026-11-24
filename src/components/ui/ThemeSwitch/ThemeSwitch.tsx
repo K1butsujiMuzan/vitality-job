@@ -21,10 +21,12 @@ const ThemeSwitch = () => {
   }
 
   return (
-    <label htmlFor={id} className={styles.themeLabel} role={'switch'}>
+    <label htmlFor={id} className={styles.themeLabel}>
       <input
         checked={theme === THEMES_CONFIG.DARK}
         type={'checkbox'}
+        role="switch"
+        aria-label="Тёмная тема"
         onChange={toggleTheme}
         id={id}
         className={clsx(styles.themeInput, 'visually-hidden')}

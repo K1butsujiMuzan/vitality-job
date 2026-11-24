@@ -1,0 +1,46 @@
+@use '../../../styles/functions';
+
+.breadcrumb {
+  width: min(55%, functions.rem(240));
+  height: functions.rem(18);
+}
+
+.title {
+  width: min(84%, functions.rem(520));
+  height: functions.fluid(34, 53);
+  margin-bottom: functions.rem(12);
+}
+
+.company {
+  width: min(60%, functions.rem(280));
+  height: functions.rem(20);
+}
+
+.icon {
+  width: functions.rem(24);
+  height: functions.rem(24);
+}
+
+.factText,
+.card {
+  display: grid;
+  gap: functions.rem(8);
+}
+
+.factText {
+  flex: 1;
+}
+
+.label {
+  width: min(48%, functions.rem(135));
+}
+
+.value,
+.shortLine {
+  width: 66%;
+}
+
+.button {
+  height: functions.rem(50);
+  border-radius: functions.rem(12);
+}

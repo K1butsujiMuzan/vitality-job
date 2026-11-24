@@ -1,0 +1,124 @@
+@use '../../../../styles/functions';
+@use '../../../../styles/media';
+
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: functions.fluid(8, 20);
+
+  @include media.mobile-s {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: functions.rem(14);
+  min-width: 0;
+  min-height: functions.rem(44);
+  border: 1px solid var(--base-color-text);
+  border-radius: functions.rem(12);
+  padding-inline: functions.fluid(10, 18);
+  cursor: text;
+
+  &:focus-within {
+    outline: 2px solid var(--base-color-link);
+    outline-offset: 2px;
+  }
+
+  input {
+    min-width: 0;
+    width: 100%;
+    padding: functions.rem(8) 0;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  input::placeholder {
+    color: var(--base-color-additional);
+    opacity: 1;
+  }
+
+  @include media.mobile-s {
+    grid-column: span 2;
+  }
+}
+
+.submit {
+  min-width: functions.rem(130);
+}
+
+.searchPlaceholder,
+.filterPlaceholder,
+.submitPlaceholder {
+  height: functions.rem(44);
+  border-radius: functions.rem(12);
+}
+
+.filterPlaceholder,
+.submitPlaceholder {
+  width: functions.rem(130);
+}
+
+@include media.mobile-s {
+  .searchPlaceholder {
+    grid-column: span 2;
+  }
+
+  .filterPlaceholder,
+  .submitPlaceholder {
+    width: auto;
+  }
+}
+
+.filters {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: functions.rem(16);
+  margin-top: functions.rem(14);
+  padding: functions.rem(18);
+  border: 1px solid var(--base-color-border);
+  border-radius: functions.rem(12);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.filter {
+  display: grid;
+  gap: functions.rem(6);
+  font-size: functions.rem(14);
+  font-weight: 500;
+
+  input {
+    width: 100%;
+    min-height: functions.rem(44);
+    padding-inline: functions.rem(10);
+    color: var(--base-color-text);
+    background: var(--base-color-bg);
+    border: 1px solid var(--base-color-border);
+    border-radius: functions.rem(8);
+  }
+
+  @include media.mobile-s {
+    width: 100%;
+  }
+}
+
+.filterActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: functions.rem(8);
+
+  @include media.mobile-s {
+    width: 100%;
+
+    button {
+      flex: 1 1 auto;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@use '../../../../styles/functions';
+
+.nav {
+  margin-top: functions.rem(20);
+}
+
+.list,
+.item {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: functions.fluid(2, 8);
+}
+
+.link,
+.current,
+.gap {
+  display: grid;
+  place-items: center;
+  min-width: functions.fluid(36, 60);
+  min-height: functions.fluid(40, 60);
+  border-radius: functions.rem(12);
+  font-size: functions.fluid(16, 22);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.link:hover,
+.link:active {
+  background: var(--base-color-additional-accent);
+}
+
+.current {
+  background: var(--color-purple);
+  color: var(--color-white);
+}

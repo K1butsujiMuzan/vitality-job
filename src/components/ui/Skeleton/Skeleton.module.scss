@@ -1,0 +1,13 @@
+@use '../../../styles/functions';
+
+.skeleton {
+  display: block;
+  min-width: 0;
+  height: functions.rem(14);
+  border-radius: functions.rem(5);
+  background: color-mix(
+    in srgb,
+    var(--base-color-text) 10%,
+    var(--base-color-bg)
+  );
+}

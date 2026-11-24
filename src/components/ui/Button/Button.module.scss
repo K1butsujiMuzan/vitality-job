@@ -1,0 +1,59 @@
+@use '../../../styles/functions';
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: functions.rem(10);
+  min-height: functions.rem(44);
+  padding: functions.rem(9) functions.rem(20);
+  border: 1px solid transparent;
+  border-radius: functions.rem(12);
+  background: transparent;
+  text-align: center;
+  font-weight: 600;
+  transition-property: background-color, border-color, color;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
+
+.primary {
+  background: var(--color-purple);
+  color: var(--color-white);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-purple), var(--color-black) 16%);
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(in srgb, var(--color-purple), var(--color-black) 26%);
+  }
+}
+
+.outline {
+  border-color: var(--color-purple);
+  color: var(--base-color-link);
+}
+
+.neutral {
+  border-color: var(--base-color-text);
+  font-weight: 500;
+}
+
+.outline,
+.neutral {
+  &:hover:not(:disabled) {
+    background: var(--base-color-additional-accent);
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(
+      in srgb,
+      var(--base-color-additional-accent),
+      var(--color-purple) 25%
+    );
+  }
+}

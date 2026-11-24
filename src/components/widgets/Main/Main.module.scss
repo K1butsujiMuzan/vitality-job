@@ -1,0 +1,76 @@
+@use '../../../styles/functions';
+@use '../../../styles/mixins';
+
+.main {
+  padding-block: functions.fluid(22, 25) functions.rem(40);
+}
+
+.title {
+  @include mixins.fluid-text(31, 48);
+  font-weight: 700;
+  line-height: 1.12;
+  margin-bottom: functions.fluid(14, 24);
+}
+
+.intro,
+.count {
+  @include mixins.fluid-text(17, 22);
+  font-weight: 500;
+}
+
+.intro {
+  margin-bottom: functions.fluid(16, 22);
+}
+
+.results {
+  margin-top: functions.rem(20);
+  scroll-margin-top: functions.rem(14);
+}
+
+.count {
+  margin-bottom: functions.fluid(16, 22);
+  font-variant-numeric: tabular-nums;
+}
+
+.countPlaceholder {
+  height: functions.fluid(20, 26);
+  width: functions.rem(155);
+  margin-bottom: functions.fluid(16, 22);
+}
+
+.note {
+  color: var(--base-color-additional);
+  margin-bottom: functions.rem(12);
+  font-size: functions.rem(14);
+}
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: functions.rem(14);
+  border-top: 1px solid var(--base-color-border);
+  padding-block: functions.rem(20);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: functions.rem(12);
+  margin-top: functions.rem(24);
+  color: var(--base-color-additional);
+  font-size: functions.rem(14);
+
+  a {
+    display: inline-flex;
+    gap: functions.rem(6);
+    align-items: center;
+    color: var(--base-color-link);
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

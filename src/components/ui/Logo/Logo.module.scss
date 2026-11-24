@@ -1,0 +1,22 @@
+@use '../../../styles/functions';
+@use '../../../styles/media';
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: functions.rem(8);
+  font-size: functions.rem(32);
+  font-weight: 700;
+  color: var(--color-purple);
+
+  @include media.mobile-s {
+    font-size: functions.rem(20);
+  }
+}
+
+.logoIcon {
+  @include media.mobile-s {
+    width: functions.rem(32);
+    height: functions.rem(32);
+  }
+}

@@ -1,0 +1,51 @@
+@use '../../../styles/functions';
+@use '../../../styles/mixins';
+
+.themeLabelLoader,
+.themeLabel {
+  width: functions.rem(50);
+  border: 1px solid var(--color-purple);
+  border-radius: functions.rem(14);
+  background-color: var(--base-color-additional-accent);
+}
+
+.themeLabelLoader {
+  display: block;
+  height: functions.rem(26);
+}
+
+.themeLabel {
+  position: relative;
+  padding: functions.rem(2);
+  display: inline-flex;
+  color: var(--color-white);
+}
+
+.themeInput {
+  &:checked + .themeOval {
+    translate: functions.rem(14) 0;
+
+    .themeIconSun {
+      opacity: 0;
+    }
+  }
+
+  &:not(:checked) + .themeOval .themeIconMoon {
+    opacity: 0;
+  }
+}
+
+.themeOval {
+  position: relative;
+  display: block;
+  width: functions.rem(30);
+  height: functions.rem(20);
+  background-color: var(--color-purple);
+  border-radius: functions.rem(10);
+}
+
+.themeIcon {
+  position: absolute;
+
+  @include mixins.center;
+}

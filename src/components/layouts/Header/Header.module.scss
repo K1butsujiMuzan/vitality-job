@@ -1,0 +1,19 @@
+@use '../../../styles/functions';
+@use '../../../styles/media';
+
+.header {
+  padding-block: functions.rem(22);
+  background-color: var(--base-color-bg);
+
+  @include media.mobile-s {
+    padding-block: functions.rem(14);
+  }
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: functions.rem(16);
+  flex-wrap: wrap;
+}

@@ -25,10 +25,12 @@
   --base-color-text: var(--color-black);
   --base-color-bg: var(--color-white);
   --base-color-additional: var(--color-gray);
+  --base-color-additional-accent: var(--color-light-theme-purple);
 }
 
 html.dark {
   --base-color-text: var(--color-white);
   --base-color-bg: var(--color-black);
   --base-color-additional: var(--color-light-gray);
+  --base-color-additional-accent: var(--color-dark-theme-purple);
 }

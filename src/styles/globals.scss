@@ -20,3 +20,7 @@ svg * {
 a {
   text-decoration: none;
 }
+
+svg {
+  flex-shrink: 0;
+}

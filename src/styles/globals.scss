@@ -1,0 +1,22 @@
+body {
+  font-family: var(--base-font-inter);
+  color: var(--base-color-text);
+  background-color: var(--base-color-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+  transition-duration: var(--main-transition-duration);
+  color: inherit;
+}
+
+a {
+  text-decoration: none;
+}

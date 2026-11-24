@@ -1,0 +1,20 @@
+@use './functions';
+@use './mixins';
+@use './media';
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.main-container {
+  max-width: calc(
+    var(--main-container-width) + var(--main-container-padding-x) * 2
+  );
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--main-container-padding-x);
+}
+
+.visually-hidden {
+  @include mixins.visually-hidden;
+}

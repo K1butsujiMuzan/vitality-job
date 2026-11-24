@@ -1,0 +1,31 @@
+@use 'sass:math';
+
+@function rem($value-px: 16) {
+  @if (math.is-unitless($value-px)) {
+    @return math.div($value-px, 16) * 1rem;
+  } @else {
+    @error "Функция rem принимает в себя только числа без единиц измерения";
+  }
+}
+
+@function em($value-px: 16) {
+  @if (math.is-unitless($value-px)) {
+    @return math.div($value-px, 16) * 1em;
+  } @else {
+    @error "Функция em принимает в себя только числа без единиц измерения";
+  }
+}
+
+@function fluid($min: 16, $max: 32) {
+  @if (math.is-unitless($min) and math.is-unitless($max)) {
+    $max-screen: 1480;
+    $min-screen: 370;
+    $slope: math.div(($max - $min), ($max-screen - $min-screen));
+    $intercept: $min - ($min-screen * $slope);
+    $recommend: calc(#{rem($intercept)} + #{$slope * 100}vw);
+
+    @return clamp(#{rem($min)}, $recommend, #{rem($max)});
+  } @else {
+    @error "Функция fluid принимает в себя только числа без единиц измерения";
+  }
+}

@@ -1,0 +1,34 @@
+@use './functions';
+
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-purple: #6c38cc;
+  --color-light-theme-purple: #e7dcf5;
+  --color-dark-theme-purple: #321d59;
+  --color-gray: #505050;
+  --color-light-gray: #a3a3a3;
+  --color-red: #c21111;
+  --color-green: #10bf00;
+  --color-orange: #f7820d;
+
+  --layer-element: 10;
+  --layer-popup: 15;
+  --layer-sticky: 20;
+  --layer-modal: 30;
+
+  --main-container-width: #{functions.rem(1280)};
+  --main-transition-duration: 300ms;
+  --main-container-padding-x: #{functions.rem(20)};
+  --base-font-inter: var(--font-inter), sans-serif;
+
+  --base-color-text: var(--color-black);
+  --base-color-bg: var(--color-white);
+  --base-color-additional: var(--color-gray);
+}
+
+html.dark {
+  --base-color-text: var(--color-white);
+  --base-color-bg: var(--color-black);
+  --base-color-additional: var(--color-light-gray);
+}

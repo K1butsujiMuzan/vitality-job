@@ -1,0 +1,58 @@
+@use 'functions';
+
+@mixin hover-active {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @content;
+    }
+  }
+}
+
+$laptop: 1440;
+$laptop-xs: 1260;
+$tablet-s: 1024;
+$tablet: 768;
+$mobile-s: 600;
+$mobile: 480;
+
+@mixin laptop {
+  @media (width <= functions.em($laptop)) {
+    @content;
+  }
+}
+
+@mixin laptop-xs {
+  @media (width <= functions.em($laptop-xs)) {
+    @content;
+  }
+}
+
+@mixin tablet-s {
+  @media (width <= functions.em($tablet-s)) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (width <= functions.em($tablet)) {
+    @content;
+  }
+}
+
+@mixin mobile-s {
+  @media (width <= functions.em($mobile-s)) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (width <= functions.em($mobile)) {
+    @content;
+  }
+}

@@ -9,13 +9,14 @@ import {
 } from '@/services/vacancies/catalogQuery'
 import { fetchCatalog } from '@/services/vacancies/vacanciesApi'
 import { PAGES_CONFIG } from '@/shared/configs/pages.config'
+import { QUERY_KEYS_CONFIG } from '@/shared/configs/query-keys.config'
 
 export function useVacancyCatalog() {
   const params = useSearchParams()
   const query = readCatalogQuery(new URLSearchParams(params.toString()))
 
   const result = useQuery({
-    queryKey: ['vacancies', query],
+    queryKey: [QUERY_KEYS_CONFIG.VACANCIES, query],
     queryFn: ({ signal }) => fetchCatalog(query, signal),
   })
 

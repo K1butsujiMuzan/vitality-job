@@ -8,6 +8,7 @@ import VacancyAnalysis from './VacancyAnalysis'
 import VacancyContacts from './VacancyContacts'
 import VacancyDescription from './VacancyDescription'
 import VacancyFacts from './VacancyFacts'
+import VacancyRecommendations from './VacancyRecommendations'
 import styles from './Vacancy.module.scss'
 
 export default function VacancyPage({ data }: { data: VacancyResponse }) {
@@ -73,6 +74,7 @@ export default function VacancyPage({ data }: { data: VacancyResponse }) {
           </div>
           <VacancyContacts vacancy={vacancy} />
           <VacancyAnalysis issues={issues} analyzedAt={analyzedAt} />
+          <VacancyRecommendations issues={issues} />
           {mode === 'live' && (
             <p className={styles.attribution}>
               Источник <a href="https://trudvsem.ru/">«Работа в России»</a>

@@ -1,0 +1,7 @@
+const MAX_FILE_KIB = 128
+
+export const UPLOAD_CONFIG = {
+  MAX_FILE_KIB,
+  MAX_FILE_BYTES: MAX_FILE_KIB * 1024,
+  ANALYSIS_TIMEOUT_MS: 195_000,
+} as const

@@ -9,6 +9,6 @@ export const PROCESSING_CONFIG = {
   CLOUDFLARE_MODEL: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
   OLLAMA_URL: 'http://127.0.0.1:11434/v1',
   OLLAMA_MODEL: 'qwen2.5:7b',
-  ANALYZER_VERSION: '1',
+  ANALYZER_VERSION: '2',
   LEASE_SECONDS: 330,
 } as const

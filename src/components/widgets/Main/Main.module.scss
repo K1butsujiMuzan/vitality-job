@@ -18,7 +18,12 @@
   font-weight: 500;
 }
 
-.intro {
+.introRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: functions.rem(12);
   margin-bottom: functions.fluid(16, 22);
 }
 

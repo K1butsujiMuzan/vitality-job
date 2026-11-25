@@ -17,6 +17,7 @@ const icons = {
   ),
   chevron: <path d="m9 6 6 6-6 6" />,
   download: <path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4" />,
+  upload: <path d="M12 15V3m-4 4 4-4 4 4M4 16v4h16v-4" />,
   location: (
     <>
       <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />

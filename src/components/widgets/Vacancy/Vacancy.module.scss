@@ -189,15 +189,19 @@
   border-color: transparent;
 }
 
-.issueList {
+.issueList,
+.recommendations {
   display: grid;
   gap: functions.rem(15);
-  padding-left: functions.rem(20);
-  list-style: disc;
+  padding-inline-start: functions.rem(20);
 
   > li::marker {
     color: var(--base-color-link);
   }
+}
+
+.issueList {
+  list-style: disc;
 }
 
 .issue {

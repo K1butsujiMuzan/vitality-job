@@ -37,11 +37,6 @@ export default function VacancyAnalysis({
                   )
                 })}
               </dl>
-              <p>
-                <strong>Рекомендация</strong>
-                <br />
-                {issue.recommendation}
-              </p>
             </li>
           ))}
         </ul>

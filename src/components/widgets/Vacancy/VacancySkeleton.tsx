@@ -53,6 +53,10 @@ export default function VacancySkeleton() {
               <Skeleton />
               <Skeleton className={pending.shortLine} />
             </div>
+            <div className={clsx(styles.card, pending.card)}>
+              <Skeleton className={pending.label} />
+              <Skeleton />
+            </div>
           </div>
         </div>
       </div>

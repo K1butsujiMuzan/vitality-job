@@ -104,6 +104,16 @@
     border-radius: functions.rem(8);
   }
 
+  input[type='number'] {
+    appearance: none;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+  }
+
   @include media.mobile-s {
     width: 100%;
   }

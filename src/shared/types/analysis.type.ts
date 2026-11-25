@@ -47,3 +47,18 @@ export type VacancyResponse = Pick<AnalyzedVacancy, 'vacancy' | 'issues'> & {
   analyzedAt: string
   mode: CatalogStatus['mode']
 }
+
+export type AnalysisReport = {
+  version: number
+  generatedAt: string
+  source: string
+  model: string
+  pages: number
+  vacancies: { id: string; url: string | null; issues: Issue[] }[]
+}
+
+export type UploadAnalysisResponse = {
+  title: string
+  company: string | null
+  report: AnalysisReport
+}

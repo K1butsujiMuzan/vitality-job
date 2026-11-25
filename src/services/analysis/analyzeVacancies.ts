@@ -4,7 +4,7 @@ import type { AnalyzedVacancy, Issue } from '@/shared/types/analysis.type'
 import { normalizeVacancy } from '@/services/trudvsem/normalizeVacancy'
 import type { SourceVacancy } from '@/services/trudvsem/trudvsem.schema'
 import { getAnalysisFields } from './analysisFields'
-import { checkIssues, groundModelIssues } from './checkIssues'
+import { checkIssues, mergeAnalysisIssues } from './checkIssues'
 import { getModelIssues, type ModelConfig } from './modelClient'
 
 export async function analyzeVacancies(
@@ -52,23 +52,7 @@ export async function analyzeVacancies(
           existing,
           workSignal,
         )
-        const signatures = new Set<string>()
-        issues = [...existing, ...groundModelIssues(proposed, fields)].filter(
-          (issue) => {
-            const key = JSON.stringify([
-              issue.topic,
-              issue.kind,
-              issue.kind === 'missing'
-                ? []
-                : issue.evidence
-                    .map(({ field, quote }) => `${field}:${quote}`)
-                    .sort(),
-            ])
-            if (signatures.has(key)) return false
-            signatures.add(key)
-            return true
-          },
-        )
+        issues = mergeAnalysisIssues(fields, proposed, existing)
       }
 
       result[index] = { vacancy: normalizeVacancy(raw), issues, fingerprint }

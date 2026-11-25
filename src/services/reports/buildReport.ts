@@ -1,9 +1,13 @@
-import type { AnalyzedVacancy, Snapshot } from '@/shared/types/analysis.type'
+import type {
+  AnalysisReport,
+  AnalyzedVacancy,
+  Snapshot,
+} from '@/shared/types/analysis.type'
 
 export function buildReport(
   snapshot: Snapshot,
   entries: AnalyzedVacancy[] = snapshot.entries,
-) {
+): AnalysisReport {
   return {
     version: 1,
     generatedAt: snapshot.generatedAt,

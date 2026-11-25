@@ -1,4 +1,5 @@
 import type { Issue, IssueTopic } from '@/shared/types/analysis.type'
+import { getCoverage, VAGUE_SCHEDULE } from './analysisCoverage'
 import { TOPIC_FIELDS } from './analysisFields'
 
 const MISSING_DETAILS: Record<IssueTopic, [string, string]> = {
@@ -32,63 +33,59 @@ const MISSING_DETAILS: Record<IssueTopic, [string, string]> = {
   ],
 }
 
-const MISSING_VALUES = /^(?:[-–—]+|не указано?|нет данных|n\/a)$/i
-const NARRATIVE_FIELDS = [
-  'description',
-  'duty',
-  'responsibilities',
-  'requirements',
-  'qualification',
-  'requirement.qualification',
-  'conditions',
-  'benefitDetails',
-]
-const SCHEDULE_LABEL =
-  /^(?:полный рабочий день|сменный график|гибкий график|удал[её]нная работа|удал[её]нно)$/i
-const WORK_DAYS =
-  /\b\d{1,2}\s*\/\s*\d{1,2}\b|пн\s*[–—-]\s*пт|понедельника по пятницу/i
-const WORK_HOURS = /\b\d{1,2}[:.]\d{2}\s*(?:[–—-]|до)\s*\d{1,2}[:.]\d{2}\b/i
 const SALARY_BOUNDS = ['salary_min', 'salary_max']
 const SALARY_CONTRADICTION_FIELDS = [...SALARY_BOUNDS, 'salary', 'description']
-
-const hasTimetable = (text: string) =>
-  WORK_DAYS.test(text) && WORK_HOURS.test(text)
+const EXPERIENCE_REQUIREMENT =
+  /(?:\d[\d,.]*(?:[-‑][а-яё]{1,3})?|одного|двух|тр[её]х)\s*(?:год|лет|месяц)|полугода|без опыта|опыт\s+(?:не\s+требу|обязател|желател)|будет преимуществ/i
 
 export function checkIssues(fields: Record<string, string>) {
   const issues: Issue[] = []
-  const hasNarrative = NARRATIVE_FIELDS.some((key) => {
-    const value = fields[key]
-    return value && !MISSING_VALUES.test(value)
-  })
-  if (!hasNarrative) {
-    for (const [topic, paths] of Object.entries(TOPIC_FIELDS) as [
-      IssueTopic,
-      readonly string[],
-    ][]) {
-      const relevantPaths = topic === 'pay' ? paths.slice(0, 3) : paths
-      const hasValue = Object.entries(fields).some(
-        ([field, value]) =>
-          !MISSING_VALUES.test(value) &&
-          !(topic === 'pay' && /^0(?:[.,]0+)?$/.test(value)) &&
-          relevantPaths.some(
-            (path) => field === path || field.startsWith(path + '['),
-          ),
-      )
-      if (
-        hasValue ||
-        (topic === 'location' &&
-          /удал[её]н|дистанцион/i.test(fields.schedule ?? ''))
-      )
-        continue
-      const [problem, recommendation] = MISSING_DETAILS[topic]
-      issues.push({
-        topic,
-        kind: 'missing',
-        evidence: [{ field: paths[0], quote: '' }],
-        problem,
-        recommendation,
-      })
-    }
+  const { covered, hasDescription, vaguePay, vagueSchedule } =
+    getCoverage(fields)
+  for (const topic of Object.keys(covered) as IssueTopic[]) {
+    if (
+      covered[topic] ||
+      (hasDescription && (topic === 'duties' || topic === 'requirements'))
+    )
+      continue
+    const [problem, recommendation] = MISSING_DETAILS[topic]
+    issues.push({
+      topic,
+      kind: 'missing',
+      evidence: [
+        {
+          field: topic === 'location' ? 'address' : TOPIC_FIELDS[topic][0],
+          quote: '',
+        },
+      ],
+      problem,
+      recommendation,
+    })
+  }
+
+  if (vagueSchedule) {
+    const [field, quote] = vagueSchedule
+    issues.push({
+      topic: 'schedule',
+      kind: 'ambiguous',
+      evidence: [{ field, quote }],
+      problem:
+        'Общий формат графика указан, но в вакансии нет рабочих дней, часов или порядка смен.',
+      recommendation:
+        'Укажите рабочие дни и часы или объясните, как составляется график смен.',
+    })
+  }
+
+  if (vaguePay) {
+    issues.push({
+      topic: 'pay',
+      kind: 'ambiguous',
+      evidence: [{ field: 'salary', quote: fields.salary }],
+      problem:
+        'По формулировке нельзя понять порядок оплаты и ожидаемую сумму.',
+      recommendation:
+        'Укажите оклад или диапазон и поясните, от чего зависит итоговая сумма.',
+    })
   }
 
   if (
@@ -116,19 +113,7 @@ export function groundModelIssues(
   fields: Record<string, string>,
 ) {
   const knownFields = new Set(Object.values(TOPIC_FIELDS).flat())
-  const scheduleText = Object.entries(fields)
-    .filter(
-      ([field]) =>
-        [
-          'schedule',
-          'description',
-          'conditions',
-          'duty',
-          'responsibilities',
-        ].includes(field) || field.startsWith('shift['),
-    )
-    .map(([, value]) => value)
-    .join('\n')
+  const { covered, concreteSchedule } = getCoverage(fields)
 
   return issues
     .map((issue): Issue => {
@@ -147,17 +132,15 @@ export function groundModelIssues(
     .filter(({ topic, kind, evidence }) => {
       if (
         topic === 'schedule' &&
-        hasTimetable(scheduleText) &&
-        (kind === 'missing' ||
-          (kind === 'ambiguous' &&
-            evidence.every(
-              ({ quote }) => SCHEDULE_LABEL.test(quote) || hasTimetable(quote),
-            )))
+        concreteSchedule &&
+        kind === 'ambiguous' &&
+        evidence.every(({ quote }) => VAGUE_SCHEDULE.test(quote))
       )
         return false
 
       if (kind === 'missing') {
         return (
+          !covered[topic] &&
           evidence.length === 1 &&
           evidence[0].quote === '' &&
           (knownFields.has(evidence[0].field) ||
@@ -167,6 +150,21 @@ export function groundModelIssues(
       if (
         kind === 'contradiction' &&
         (evidence.length !== 2 || evidence[0].quote === evidence[1].quote)
+      )
+        return false
+      if (
+        topic === 'requirements' &&
+        kind === 'contradiction' &&
+        evidence.some(({ field }) => field === 'requirement.experience') &&
+        !evidence.some(
+          ({ field, quote }) =>
+            [
+              'requirements',
+              'qualification',
+              'requirement.qualification',
+              'description',
+            ].includes(field) && EXPERIENCE_REQUIREMENT.test(quote),
+        )
       )
         return false
       if (
@@ -184,4 +182,32 @@ export function groundModelIssues(
           fields[field].includes(quote),
       )
     })
+}
+
+export function mergeAnalysisIssues(
+  fields: Record<string, string>,
+  proposed: Issue[],
+  rules = checkIssues(fields),
+) {
+  const issues = [...rules]
+  for (const issue of groundModelIssues(proposed, fields)) {
+    const sameFinding = issues.some(
+      (previous) =>
+        previous.topic === issue.topic &&
+        previous.kind === issue.kind &&
+        (issue.kind === 'missing' ||
+          (issue.kind === 'ambiguous'
+            ? previous.evidence.some((a) =>
+                issue.evidence.some((b) => a.field === b.field),
+              )
+            : previous.evidence.length === issue.evidence.length &&
+              previous.evidence.every((a) =>
+                issue.evidence.some(
+                  (b) => a.field === b.field && a.quote === b.quote,
+                ),
+              ))),
+    )
+    if (!sameFinding) issues.push(issue)
+  }
+  return issues
 }

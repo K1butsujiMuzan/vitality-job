@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const SourceVacancySchema = z.looseObject({
+export const SourceVacancySchema = z.looseObject({
   id: z
     .union([z.string(), z.number()])
     .transform(String)
